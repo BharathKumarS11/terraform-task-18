@@ -5,5 +5,5 @@ variable "aws_region" {
 
 variable "bucket_name" {
   type    = string
-  default = "terraform-task-18-bucket"
+  default = "terraform-task-18-bucket-name"
 }
