@@ -4,12 +4,17 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
 
 permissions:
+  id-token: write
   contents: read
+
+env:
+  TF_VAR_bucket_name: terraform-task-18-bharath-2026
 
 jobs:
   terraform:
@@ -22,6 +27,15 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ap-south-1
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
 
       - name: Terraform Init
         run: terraform init
