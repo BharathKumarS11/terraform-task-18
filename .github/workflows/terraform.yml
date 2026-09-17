@@ -1,10 +1,11 @@
 name: Terraform
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
+
+  push:
     branches:
       - main
 
@@ -44,13 +45,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
-
-      - name: Upload Terraform Plan
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-plan
-          path: tfplan
+        run: terraform plan
 
 
   terraform-apply:
@@ -58,7 +53,6 @@ jobs:
     needs: terraform-plan
     runs-on: ubuntu-latest
 
-    # Apply only after the plan job succeeds
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     environment:
@@ -80,10 +74,8 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Download Terraform Plan
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
