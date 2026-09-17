@@ -25,14 +25,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Show GitHub repository IDs
-        run: |
-          echo "Repository: ${{ github.repository }}"
-          echo "Repository ID: ${{ github.repository_id }}"
-          echo "Owner ID: ${{ github.repository_owner_id }}"
-          echo "Events: ${{ github.event_name }}"
-          echo "Ref: ${{ github.ref }}"
-
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
