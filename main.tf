@@ -15,7 +15,7 @@ resource "aws_s3_bucket" "app" {
   bucket = var.bucket_name
 
   tags = {
-    Project   = "terraform-task-18"
+    Project   = "terraform-task-20"
     ManagedBy = "Terraform"
   }
 }
